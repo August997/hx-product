@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>导航</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .nav{
+            list-style: none;
+            background-color: #6495ed;
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            position: fixed;
+            top:0
+        }
+        .nav li{
+            float: left;
+            width: 25%;
+        }
+        .nav a{
+            display: block;
+            width: 250px;
+            text-align: center;
+            padding: 5px 0;
+            text-decoration: none;
+            color: white;
+            font-width:bold;
+        }
+        .nav li:hover{
+            background-color: #c00;
+        }
+        .header{
+            width: 1000px;
+            height: 150px;
+            background-color: yellowgreen;
+            margin: 0 auto;
+        }
+        .content{
+            width: 1000px;
+            height: 500px;
+            background-color: orange;
+            margin: 0 auto;
+            margin-top: 10px;
+        }
+        .left{
+            width: 200px;
+            height: 100%;
+            background-color: deepskyblue;
+            float: left;
+        }
+        .right{
+            width: 200px;
+            height: 100%;
+            background-color: fuchsia;
+            float: left;
+        }
+        .center{
+            width: 580px;
+            height: 100%;
+            background-color: firebrick;
+            float: left;
+            margin: 0 10px;
+        }
+        .center:hover{
+            background-image: url("img/20161106152040_QJZ8c.thumb.700_0.jpeg");
+            opacity: 0;
+            transition: transform 1s ease 2s, opacity 1s ease 2s;
+        }
+        .footer{
+            width: 100%;
+            height: 20px;
+            background-color: #6495ed;
+            margin: 0 auto;
+            margin-top: 10px;
+            position: fixed;
+            bottom: 0;
+        }
+        .footer a{
+            color: white;
+            margin: 0 auto;
+            font-size:10px;
+            display: block;
+            position: absolute;
+            left:50%;
+            padding: 2px 0;
+        }
+    </style>
+</head>
+<body>
+    <ul class="nav">
+        <li><a href="">首页</a></li>
+        <li><a href="">新闻</a></li>
+        <li><a href="">联系</a></li>
+        <li><a href="">关于</a></li>
+    </ul>
+    <div class="header"></div>
+    <div class="content">
+        <div class="left"></div>
+        <div class="center"></div>
+        <div class="right"></div>
+    </div>
+    <div class="footer">
+        <a>copyright-wj</a>
+    </div>
+</body>
+</html>

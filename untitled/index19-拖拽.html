@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #box{
+            background-color: red;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+        }
+    </style>
+    <script>
+        window.onload=function () {
+            var box=document.getElementById("box");
+            box.onmousedown=function (event) {
+                event=event||window.event;
+                var ol=event.clientX-box.offsetLeft;
+                var or=event.clientY-box.offsetTop;
+
+                document.onmousemove=function (event) {
+                    event=event||window.event;
+
+                    var left=event.clientX-ol;
+                    var top=event.clientY-or;
+
+                    box.style.left=left+"px";
+                    box.style.top=top+"px";
+
+                };
+                return false;
+            };
+
+            box.onmouseup=function () {
+                    //取消onmousemove时间
+                document.onmousemove=null;
+                document.onmouseup=null;
+            }
+        }
+    </script>
+</head>
+<body>
+        <a>我是一段文字</a>
+        <div id="box"></div>
+</body>
+</html>

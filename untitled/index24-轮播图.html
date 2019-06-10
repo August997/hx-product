@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #outer{
+            width: 1000px;
+            height:550px;
+            margin: 0  auto;
+            background-color: lightgrey;
+            padding: 10px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        #imgList{
+            list-style: none;
+            width: 3920px;
+            position: absolute;
+        }
+        #imgList li{
+            list-style: none;
+            float: left;
+            margin-left: 20px;
+        }
+        #navDiv{
+            position: absolute;
+            bottom: 30px;
+            left: 430px;
+        }
+        #navDiv a{
+            width: 15px;
+            height: 15px;
+            float: left;
+            background-color:cornflowerblue;
+            margin:0 10px;
+            opacity: 0.6;
+        }
+        #navDiv a:hover{
+            background-color: #333333;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function(){
+            //获取imgList
+            var imgList = document.getElementById("imgList");
+            //获取页面中所有的img标签
+            var imgArr = document.getElementsByTagName("img");
+            //设置imgList的宽度
+            imgList.style.width = 1000*imgArr.length+"px";
+
+            /*设置导航按钮居中*/
+            //获取navDiv
+            var navDiv = document.getElementById("navDiv");
+            //获取outer
+            var outer = document.getElementById("outer");
+            //设置navDiv的left值
+            navDiv.style.left = (outer.offsetWidth - navDiv.offsetWidth)/2 + "px";
+
+            //默认显示图片的索引
+            var index = 0;
+            //获取所有的a
+            var allA = document.getElementsByTagName("a");
+            //设置默认选中的效果
+            allA[index].style.backgroundColor = "black";
+
+            //为所有的超链接都绑定单击响应函数
+            for(var i=0; i<allA.length ; i++){
+
+                //为每一个超链接都添加一个num属性
+                allA[i].num = i;
+
+                //为超链接绑定单击响应函数
+                allA[i].onclick = function(){
+
+                    //关闭自动切换的定时器
+                    clearInterval(timer);
+                    //获取点击超链接的索引,并将其设置为index
+                    index = this.num;
+
+                    //imgList.style.left = -520*index + "px";
+                    //设置选中的a
+                    setA();
+
+                    //使用move函数来切换图片
+                    move(imgList , "left" , -980*index , 20 , function(){
+                        //动画执行完毕，开启自动切换
+                        autoChange();
+                    });
+
+                };
+            }
+
+
+            //开启自动切换图片
+            autoChange();
+
+
+            //创建一个方法用来设置选中的a
+            function setA(){
+
+                //判断当前索引是否是最后一张图片
+                if(index >= imgArr.length - 1){
+                    //则将index设置为0
+                    index = 0;
+
+                    //此时显示的最后一张图片，而最后一张图片和第一张是一摸一样
+                    //通过CSS将最后一张切换成第一张
+                    imgList.style.left = 0;
+                }
+
+                //遍历所有a，并将它们的背景颜色设置为红色
+                for(var i=0 ; i<allA.length ; i++){
+                    allA[i].style.backgroundColor = "";
+                }
+
+                //将选中的a设置为黑色
+                allA[index].style.backgroundColor = "black";
+            }
+
+            function move(obj, attr, target, speed, callback) {
+                //关闭上一个定时器
+                clearInterval(obj.timer);
+
+                //获取元素目前的位置
+                var current = parseInt(getStyle(obj, attr));
+
+                //判断速度的正负值
+                //如果从0 向 800移动，则speed为正
+                //如果从800向0移动，则speed为负
+                if(current > target) {
+                    //此时速度应为负值
+                    speed = -speed;
+                }
+
+                //开启一个定时器，用来执行动画效果
+                //向执行动画的对象中添加一个timer属性，用来保存它自己的定时器的标识
+                obj.timer = setInterval(function() {
+
+                    //获取box1的原来的left值
+                    var oldValue = parseInt(getStyle(obj, attr));
+
+                    //在旧值的基础上增加
+                    var newValue = oldValue + speed;
+
+                    //判断newValue是否大于800
+                    //从800 向 0移动
+                    //向左移动时，需要判断newValue是否小于target
+                    //向右移动时，需要判断newValue是否大于target
+                    if((speed < 0 && newValue < target) || (speed > 0 && newValue > target)) {
+                        newValue = target;
+                    }
+
+                    //将新值设置给box1
+                    obj.style[attr] = newValue + "px";
+
+                    //当元素移动到0px时，使其停止执行动画
+                    if(newValue == target) {
+                        //达到目标，关闭定时器
+                        clearInterval(obj.timer);
+                        //动画执行完毕，调用回调函数
+                        callback && callback();
+                    }
+
+                }, 30);
+            }
+
+            /*
+             * 定义一个函数，用来获取指定元素的当前的样式
+             * 参数：
+             * 		obj 要获取样式的元素
+             * 		name 要获取的样式名
+             */
+            function getStyle(obj, name) {
+
+                if(window.getComputedStyle) {
+                    //正常浏览器的方式，具有getComputedStyle()方法
+                    return getComputedStyle(obj, null)[name];
+                } else {
+                    //IE8的方式，没有getComputedStyle()方法
+                    return obj.currentStyle[name];
+                }
+
+            }
+
+            //定义一个自动切换的定时器的标识
+            var timer;
+            //创建一个函数，用来开启自动切换图片
+            function autoChange(){
+
+                //开启一个定时器，用来定时去切换图片
+                timer = setInterval(function(){
+
+                    //使索引自增
+                    index++;
+
+                    //判断index的值
+                    index %= imgArr.length;
+
+                    //执行动画，切换图片
+                    move(imgList , "left" , -980*index , 20 , function(){
+                        //修改导航按钮
+                        setA();
+                    });
+
+                },3000);
+        }}
+    </script>
+</head>
+<body>
+<div id="outer">
+    <ul id="imgList">
+        <li> <img src="img/pic2/img1.jpg" height="540" width="960"/></li>
+        <li> <img src="img/pic2/img2.jpg" height="540" width="960"/></li>
+        <li> <img src="img/pic2/img3.jpg" height="540" width="960"/></li>
+        <li> <img src="img/pic2/img4.jpg" height="540" width="960"/></li>
+        <li> <img src="img/pic2/img1.jpg" height="540" width="960"/></li>
+    </ul>
+    <div id="navDiv">
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+        <a href="javascript:;"></a>
+    </div>
+</div>
+</body>
+</html>

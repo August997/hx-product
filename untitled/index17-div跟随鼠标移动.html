@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #box{
+            background-color: red;
+            width: 100px;
+            height: 100px;
+            position: absolute;//开启box的绝对定位
+        }
+    </style>
+
+    <script>
+        window.onload=function () {
+            var box=document.getElementById("box");
+            document.onmousemove=function (event) {
+                var left=event.clientX;
+                var top=event.clientY;
+                var str=document.documentElement.scrollTop;
+                var str2=document.documentElement.scrollLeft;
+                box.style.left=left+str2+"px";
+                box.style.top=top+str+"px";
+            }
+        }
+    </script>
+</head>
+<body style="height: 1000px;width: 2000px">
+        <div id="box"></div>
+</body>
+</html>

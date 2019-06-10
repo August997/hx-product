@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #box1{
+            width: 200px;
+            height: 200px;
+            background-color: yellowgreen;
+        }
+        #s1{
+            background-color: yellow;
+        }
+    </style>
+    <script>
+        window.onload=function () {
+            var s1=document.getElementById("s1");
+            s1.onclick=function (event) {
+                alert("s1");
+                event.cancelBubble=true;
+            };
+
+            var box1=document.getElementById("box1");
+            box1.onclick=function () {
+                alert("box1");
+            };
+            var body=document.body;
+           body.addEventListener("click",function () {
+               alert("body");
+           },false)
+        }
+    </script>
+</head>
+<body>
+        <div id="box1">
+            我是box1
+            <span id="s1">我是sapn</span>
+        </div>
+</body>
+</html>
